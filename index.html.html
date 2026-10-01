@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>THWAYYIB — Learn Smarter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Inter,system-ui,sans-serif;
+}
+
+:root{
+    --bg:#f5f7fb;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#7c8498;
+    --primary:#6c63ff;
+    --secondary:#8b5cf6;
+    --green:#22c55e;
+    --orange:#f59e0b;
+    --border:#e8eaf1;
+    --gold:#c9982c;
+    --shadow:0 15px 40px rgba(30,35,60,.08);
+    --shadow-lux:0 22px 50px rgba(30,35,60,.14), 0 3px 10px rgba(30,35,60,.08);
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+}
+
+body.dark{
+    --bg:#0d1020;
+    --card:#171b2f;
+    --text:#f5f7ff;
+    --muted:#9ca3b7;
+    --border:#292e46;
+    --shadow:0 15px 40px rgba(0,0,0,.3);
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    transition:background .3s, color .3s;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+    width:250px;
+    background:var(--card);
+    border-right:1px solid var(--border);
+    padding:28px 18px;
+    padding-top:calc(28px + env(safe-area-inset-top,0px));
+    position:fixed;
+    height:100vh;
+    z-index:20;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:24px;
+    font-weight:900;
+    margin-bottom:45px;
+}
+.proBadge{
+    font-size:10px;
+    font-weight:800;
+    letter-spacing:.06em;
+    color:#3a2b08;
+    background:linear-gradient(120deg,#f3d585,var(--gold),#f3d585);
+    padding:3px 8px;
+    border-radius:999px;
+    box-shadow:0 2px 6px rgba(201,152,44,.4);
+    margin-left:-2px;
+}
+
+.logoIcon{
+    width:42px;
+    height:42px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    display:grid;
+    place-items:center;
+    color:white;
+    animation:logoSpin .8s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes logoSpin{
+    from{transform:rotate(-90deg) scale(.4);opacity:0;}
+    to{transform:rotate(0) scale(1);opacity:1;}
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.nav button{
+    background:transparent;
+    color:var(--muted);
+    padding:14px;
+    border-radius:14px;
+    text-align:left;
+    font-size:15px;
+    transition:background .2s, color .2s, transform .15s;
+}
+
+.nav button:hover{
+    background:rgba(108,99,255,.1);
+    color:var(--primary);
+    transform:translateX(3px);
+}
+.nav button.active{
+    background:rgba(108,99,255,.1);
+    color:var(--primary);
+}
+.nav button:active{
+    transform:scale(.97);
+}
+
+.nav button span{
+    margin-right:10px;
+    display:inline-block;
+}
+
+.sidebarBottom{
+    position:absolute;
+    bottom:calc(25px + env(safe-area-inset-bottom,0px));
+    left:18px;
+    right:18px;
+}
+
+.themeBtn{
+    width:100%;
+    padding:13px;
+    border-radius:14px;
+    background:var(--bg);
+    color:var(--text);
+    transition:transform .15s;
+}
+.themeBtn:active{transform:scale(.96);}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    width:calc(100% - 250px);
+    padding:30px;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.cursive{
+    font-family:'Caveat',cursive;
+    color:var(--primary);
+    font-weight:700;
+    display:block;
+    transform:rotate(-2deg);
+}
+.greeting .cursive{
+    font-size:22px;
+    margin-bottom:-6px;
+}
+.greeting h1{
+    font-size:30px;
+}
+
+.greeting p{
+    color:var(--muted);
+    margin-top:5px;
+}
+
+.avatar{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#ff8a65,#ffca28);
+    display:grid;
+    place-items:center;
+    color:white;
+    font-weight:800;
+    animation:popIn .5s cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes popIn{
+    from{opacity:0;transform:scale(.5);}
+    to{opacity:1;transform:scale(1);}
+}
+
+/* SCREENS */
+
+.screen{
+    display:none;
+}
+
+.screen.active{
+    display:block;
+    animation:fadeIn .4s ease both;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(14px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* HERO */
+
+.hero{
+    background:linear-gradient(135deg,#6157ff,#9b5cff);
+    color:white;
+    padding:35px;
+    border-radius:25px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+    box-shadow:var(--shadow-lux);
+    animation:fadeIn .45s ease .05s both;
+}
+
+.hero:after{
+    content:"";
+    width:250px;
+    height:250px;
+    background:rgba(255,255,255,.08);
+    border-radius:50%;
+    position:absolute;
+    right:-70px;
+    top:-90px;
+    animation:blobPulse 5s ease-in-out infinite;
+}
+@keyframes blobPulse{
+    50%{transform:scale(1.15);}
+}
+
+.hero:before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:-60%;
+    width:40%;
+    height:100%;
+    background:linear-gradient(115deg,transparent,rgba(255,255,255,.16),transparent);
+    animation:heroShimmer 3.4s ease-in-out infinite;
+    pointer-events:none;
+}
+@keyframes heroShimmer{
+    0%{left:-60%;}
+    60%,100%{left:130%;}
+}
+
+.hero h2{
+    font-size:32px;
+    margin-bottom:10px;
+}
+.hero .cursive{
+    color:rgba(255,255,255,.85);
+    font-size:22px;
+    margin-bottom:2px;
+}
+
+.hero p{
+    opacity:.85;
+    max-width:500px;
+}
+
+.heroBtn{
+    background:white;
+    color:#6157ff;
+    padding:14px 22px;
+    border-radius:13px;
+    font-weight:800;
+    margin-top:22px;
+    transition:transform .15s;
+}
+.heroBtn:hover{transform:translateY(-2px);}
+.heroBtn:active{transform:scale(.96);}
+
+.heroCharacter{
+    font-size:110px;
+    animation:float 3s ease-in-out infinite;
+    z-index:2;
+}
+
+@keyframes float{
+    50%{
+        transform:translateY(-12px) rotate(3deg);
+    }
+}
+
+/* STATS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+    margin:22px 0;
+}
+
+.dailyGoalCard{
+    background:var(--card);
+    padding:18px 22px;
+    border-radius:18px;
+    box-shadow:var(--shadow-lux);
+    margin-top:18px;
+    opacity:0;
+    animation:statIn .5s ease .03s forwards;
+}
+.dailyGoalRow{
+    display:flex;align-items:center;gap:14px;margin-top:8px;
+}
+
+.stat{
+    background:var(--card);
+    padding:22px;
+    border-radius:20px;
+    box-shadow:var(--shadow-lux);
+    opacity:0;
+    animation:statIn .5s cubic-bezier(.25,.8,.35,1) forwards;
+}
+.stat:nth-child(1){animation-delay:.08s;}
+.stat:nth-child(2){animation-delay:.18s;}
+.stat:nth-child(3){animation-delay:.28s;}
+.stat:nth-child(3) .statIcon, .profileStats .profileStat:nth-child(3) strong{
+    color:var(--gold);
+}
+@keyframes statIn{
+    from{opacity:0;transform:translateY(16px) scale(.96);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+}
+
+.statIcon{
+    font-size:25px;
+    display:inline-block;
+}
+.stat:nth-child(2) .statIcon{
+    animation:flamePulse 1.6s ease-in-out infinite;
+}
+@keyframes flamePulse{
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1.18) rotate(-4deg);}
+}
+
+.stat strong{
+    display:block;
+    font-size:27px;
+    margin-top:8px;
+}
+
+.stat small{
+    color:var(--muted);
+}
+
+/* LANGUAGE */
+
+.sectionTitle{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin:28px 0 15px;
+}
+
+.languageGrid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.langGroup{
+    background:var(--card);
+    border-radius:20px;
+    padding:22px 24px;
+    box-shadow:var(--shadow-lux);
+    margin-bottom:18px;
+}
+.langGroup h3{
+    display:flex;align-items:center;gap:10px;margin-bottom:4px;
+}
+.langGroup .langFlag{font-size:22px;}
+.langGroup .langSub{color:var(--muted);font-size:.85rem;margin-bottom:14px;}
+.langTopics{display:flex;flex-wrap:wrap;gap:8px;}
+.langTopics button{
+    padding:8px 14px;border-radius:999px;border:1.5px solid var(--border);
+    background:var(--bg);color:var(--text);font-size:.82rem;font-weight:700;
+    transition:transform .15s, border-color .2s;
+}
+.langTopics button:hover{border-color:var(--primary);transform:translateY(-2px);}
+.langTopics button:active{transform:scale(.95);}
+
+
+.language{
+    background:var(--card);
+    padding:25px;
+    border-radius:20px;
+    box-shadow:var(--shadow-lux);
+    cursor:pointer;
+    transition:transform .25s, box-shadow .25s;
+    opacity:0;
+    animation:statIn .5s cubic-bezier(.25,.8,.35,1) forwards;
+}
+.languageGrid .language:nth-child(1){animation-delay:.05s;}
+.languageGrid .language:nth-child(2){animation-delay:.13s;}
+.languageGrid .language:nth-child(3){animation-delay:.21s;}
+.languageGrid .language:nth-child(4){animation-delay:.29s;}
+.languageGrid .language:nth-child(5){animation-delay:.37s;}
+.languageGrid .language:nth-child(6){animation-delay:.45s;}
+
+.language:hover{
+    transform:translateY(-6px);
+    box-shadow:0 20px 45px rgba(30,35,60,.14);
+}
+.language:active{transform:translateY(-2px) scale(.99);}
+
+.flag{
+    font-size:40px;
+    display:inline-block;
+    transition:transform .3s;
+}
+.language:hover .flag{transform:scale(1.15) rotate(-6deg);}
+
+.language h3{
+    margin-top:12px;
+}
+
+.language p{
+    color:var(--muted);
+    margin:5px 0 15px;
+}
+
+.progress{
+    height:8px;
+    background:var(--border);
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.progress div{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--primary),var(--secondary));
+    border-radius:20px;
+    transition:width 1s cubic-bezier(.25,.8,.35,1);
+}
+
+/* LESSON */
+
+.lessonCard{
+    background:var(--card);
+    border-radius:25px;
+    padding:30px;
+    box-shadow:var(--shadow-lux);
+    animation:fadeIn .4s ease both;
+}
+
+.lessonHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.badge{
+    background:rgba(108,99,255,.12);
+    color:var(--primary);
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:13px;
+    font-weight:700;
+}
+
+.animationStage{
+    height:300px;
+    background:linear-gradient(135deg,#eef0ff,#f9f7ff);
+    border-radius:22px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+}
+
+body.dark .animationStage{
+    background:#20243b;
+}
+
+.character{
+    font-size:80px;
+    animation:characterMove 3s infinite;
+}
+
+@keyframes characterMove{
+    0%,100%{
+        transform:translateX(-70px);
+    }
+    50%{
+        transform:translateX(70px);
+    }
+}
+
+.sentence{
+    margin-top:20px;
+    font-size:30px;
+    font-weight:900;
+}
+
+.highlight{
+    color:var(--primary);
+    display:inline-block;
+}
+.highlight.swap{
+    animation:wordSwap .5s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes wordSwap{
+    0%{transform:scale(1) translateY(0);opacity:1;}
+    40%{transform:scale(.6) translateY(-10px);opacity:0;}
+    60%{transform:scale(.6) translateY(8px);opacity:0;}
+    100%{transform:scale(1) translateY(0);opacity:1;}
+}
+
+.lessonText{
+    margin-top:25px;
+    line-height:1.7;
+    color:var(--muted);
+}
+
+.example{
+    background:rgba(108,99,255,.08);
+    padding:18px;
+    border-radius:15px;
+    margin-top:15px;
+    font-weight:700;
+}
+
+/* QUIZ */
+
+.quizCard{
+    max-width:700px;
+    background:var(--card);
+    padding:30px;
+    border-radius:25px;
+    box-shadow:var(--shadow-lux);
+    animation:fadeIn .4s ease both;
+}
+
+.quizQuestion{
+    font-size:24px;
+    font-weight:800;
+    margin:20px 0;
+}
+
+.answers{
+    display:grid;
+    gap:12px;
+}
+
+.answer{
+    background:var(--bg);
+    color:var(--text);
+    padding:17px;
+    border-radius:14px;
+    text-align:left;
+    border:2px solid transparent;
+    transition:border-color .2s, transform .15s, background .2s;
+    opacity:0;
+    animation:statIn .35s ease forwards;
+}
+.answers .answer:nth-child(1){animation-delay:.03s;}
+.answers .answer:nth-child(2){animation-delay:.09s;}
+.answers .answer:nth-child(3){animation-delay:.15s;}
+.answers .answer:nth-child(4){animation-delay:.21s;}
+
+.answer:hover{
+    border-color:var(--primary);
+    transform:translateX(3px);
+}
+
+.answer.correct{
+    background:rgba(34,197,94,.15);
+    border-color:var(--green);
+    animation:pop .35s ease;
+}
+
+.answer.wrong{
+    background:rgba(239,68,68,.12);
+    border-color:#ef4444;
+    animation:shake .4s ease;
+}
+@keyframes pop{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.04);}
+    100%{transform:scale(1);}
+}
+@keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-6px);}
+    75%{transform:translateX(6px);}
+}
+
+.nextBtn{
+    margin-top:20px;
+    padding:14px 24px;
+    border-radius:13px;
+    background:var(--primary);
+    color:white;
+    font-weight:800;
+    transition:transform .15s;
+}
+.nextBtn:hover{transform:translateY(-2px);}
+.nextBtn:active{transform:scale(.96);}
+
+/* PROFILE */
+
+.profileCard{
+    background:var(--card);
+    border-radius:25px;
+    padding:30px;
+    box-shadow:var(--shadow-lux);
+    max-width:700px;
+    animation:fadeIn .4s ease both;
+}
+
+.profileTop{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.bigAvatar{
+    width:85px;
+    height:85px;
+    border-radius:25px;
+    display:grid;
+    place-items:center;
+    background:linear-gradient(135deg,#6157ff,#9b5cff);
+    color:white;
+    font-size:32px;
+    font-weight:900;
+    animation:popIn .5s cubic-bezier(.34,1.56,.64,1);
+}
+
+.profileStats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-top:30px;
+}
+
+.profileStat{
+    background:var(--bg);
+    padding:18px;
+    border-radius:15px;
+    text-align:center;
+    opacity:0;
+    animation:statIn .45s ease forwards;
+}
+.profileStats .profileStat:nth-child(1){animation-delay:.05s;}
+.profileStats .profileStat:nth-child(2){animation-delay:.13s;}
+.profileStats .profileStat:nth-child(3){animation-delay:.21s;}
+
+.profileStat strong{
+    display:block;
+    font-size:24px;
+}
+
+.badgesGrid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(92px,1fr));
+    gap:10px;
+    margin-top:14px;
+}
+.badge-item{
+    text-align:center;
+    padding:14px 6px;
+    border-radius:14px;
+    background:var(--bg);
+    transition:opacity .3s, transform .3s;
+}
+.badge-item .badgeIcon{font-size:26px;}
+.badge-item .badgeLabel{font-size:.7rem;font-weight:700;margin-top:6px;}
+
+/* CONFETTI + LEVEL UP */
+
+.confetti-piece{
+    position:fixed;
+    top:-10px;
+    border-radius:2px;
+    pointer-events:none;
+    z-index:80;
+}
+
+.levelToast{
+    position:fixed;
+    top:24px;
+    left:50%;
+    transform:translateX(-50%) translateY(-20px);
+    background:linear-gradient(135deg,#6157ff,#9b5cff);
+    color:#fff;
+    padding:16px 26px;
+    border-radius:16px;
+    font-weight:800;
+    box-shadow:0 15px 40px rgba(30,35,60,.25);
+    z-index:90;
+    opacity:0;
+    transition:opacity .3s, transform .3s;
+}
+.levelToast.show{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
+}
+
+/* MOBILE */
+
+.mobileMenu{
+    display:none;
+}
+
+@media(max-width:800px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:transform .3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:20px;
+        padding-top:calc(20px + env(safe-area-inset-top,0px));
+    }
+
+    .mobileMenu{
+        display:block;
+        background:var(--card);
+        color:var(--text);
+        font-size:22px;
+        padding:8px 12px;
+        border-radius:10px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .languageGrid{
+        grid-template-columns:1fr;
+    }
+
+    .hero{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .heroCharacter{
+        position:absolute;
+        right:15px;
+        bottom:10px;
+        font-size:80px;
+        opacity:.7;
+    }
+
+    .profileStats{
+        grid-template-columns:1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce){
+    *{animation-duration:.001ms !important; transition-duration:.001ms !important;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logoIcon">T</div>
+        THWAYYIB
+        <span class="proBadge">PRO</span>
+    </div>
+
+    <div class="nav">
+
+        <button class="active" onclick="showScreen('home',this)">
+            <span>🏠</span> Home
+        </button>
+
+        <button onclick="showScreen('languages',this)">
+            <span>🌍</span> Languages
+        </button>
+
+        <button onclick="showScreen('alllang',this)">
+            <span>📖</span> All Languages
+        </button>
+
+        <button onclick="showScreen('lesson',this)">
+            <span>📚</span> Grammar Lab
+        </button>
+
+        <button onclick="showScreen('quiz',this)">
+            <span>🧠</span> Quiz
+        </button>
+
+        <button onclick="showScreen('profile',this)">
+            <span>👤</span> Profile
+        </button>
+
+    </div>
+
+    <div class="sidebarBottom">
+        <button class="themeBtn" onclick="toggleTheme()">
+            🌙 Toggle Theme
+        </button>
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+    <button class="mobileMenu" onclick="toggleMenu()">☰</button>
+
+    <div class="greeting">
+        <span class="cursive">Hi Thwayyib!</span>
+        <h1 id="greeting">Welcome back 👋</h1>
+        <p>Let's learn something new today.</p>
+    </div>
+
+    <div class="avatar">T</div>
+
+</header>
+
+
+<!-- HOME -->
+
+<section class="screen active" id="home">
+
+    <div class="hero">
+
+        <div>
+
+            <span class="cursive">your daily dose of grammar ✨</span>
+            <h2>Learn smarter.<br>Not harder.</h2>
+
+            <p>
+                Learn languages through animated grammar,
+                interactive lessons and fun challenges.
+            </p>
+
+            <button class="heroBtn" onclick="showScreen('lesson')">
+                Continue Learning →
+            </button>
+
+        </div>
+
+        <div class="heroCharacter">
+            🧑‍🎓
+        </div>
+
+    </div>
+
+    <div class="dailyGoalCard">
+        <span class="cursive">today's goal ✨</span>
+        <div class="dailyGoalRow">
+            <div class="progress" style="flex:1;">
+                <div id="dailyGoalBar" data-target="0"></div>
+            </div>
+            <span id="dailyGoalLabel" style="font-size:.8rem;color:var(--muted);white-space:nowrap;">0 / 50 XP today</span>
+        </div>
+    </div>
+
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="statIcon">⭐</div>
+            <strong id="xpHome">0 XP</strong>
+            <small>Total XP</small>
+        </div>
+
+        <div class="stat">
+            <div class="statIcon">🔥</div>
+            <strong id="streakHome">1</strong>
+            <small>Day Streak</small>
+        </div>
+
+        <div class="stat">
+            <div class="statIcon">🏆</div>
+            <strong id="levelHome">1</strong>
+            <small>Current Level</small>
+        </div>
+
+    </div>
+
+
+    <div class="sectionTitle">
+        <h2>Your Languages</h2>
+    </div>
+
+    <div class="languageGrid">
+
+        <div class="language" onclick="selectLanguage('English')">
+            <div class="flag">🇬🇧</div>
+            <h3>English</h3>
+            <p>Beginner → Intermediate</p>
+            <div class="progress">
+                <div data-target="72"></div>
+            </div>
+        </div>
+
+        <div class="language" onclick="selectLanguage('Spanish')">
+            <div class="flag">🇪🇸</div>
+            <h3>Spanish</h3>
+            <p>Beginner</p>
+            <div class="progress">
+                <div data-target="34"></div>
+            </div>
+        </div>
+
+        <div class="language" onclick="selectLanguage('Arabic')">
+            <div class="flag">🇸🇦</div>
+            <h3>Arabic</h3>
+            <p>Intermediate</p>
+            <div class="progress">
+                <div data-target="61"></div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LANGUAGES -->
+
+<section class="screen" id="languages">
+
+    <div class="sectionTitle">
+        <h2>Choose a Language 🌍</h2>
+    </div>
+
+    <div class="languageGrid">
+
+        <div class="language" onclick="startLanguage('English')">
+            <div class="flag">🇬🇧</div>
+            <h3>English</h3>
+            <p>Grammar • Vocabulary • Speaking</p>
+            <div class="progress"><div data-target="72"></div></div>
+        </div>
+
+        <div class="language" onclick="startLanguage('Spanish')">
+            <div class="flag">🇪🇸</div>
+            <h3>Spanish</h3>
+            <p>Grammar • Vocabulary • Speaking</p>
+            <div class="progress"><div data-target="34"></div></div>
+        </div>
+
+        <div class="language" onclick="startLanguage('Arabic')">
+            <div class="flag">🇸🇦</div>
+            <h3>Arabic</h3>
+            <p>Grammar • Vocabulary • Reading</p>
+            <div class="progress"><div data-target="61"></div></div>
+        </div>
+
+        <div class="language">
+            <div class="flag">🇫🇷</div>
+            <h3>French</h3>
+            <p>Coming soon</p>
+        </div>
+
+        <div class="language">
+            <div class="flag">🇩🇪</div>
+            <h3>German</h3>
+            <p>Coming soon</p>
+        </div>
+
+        <div class="language">
+            <div class="flag">🇮🇳</div>
+            <h3>Hindi</h3>
+            <p>Coming soon</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ALL LANGUAGES -->
+
+<section class="screen" id="alllang">
+
+    <div class="sectionTitle">
+        <h2>All Languages, One Place 📖</h2>
+    </div>
+
+    <p style="color:var(--muted);margin-bottom:20px;max-width:620px;">
+        Browse grammar topics from every language side by side — tap any topic to jump straight into that lesson.
+    </p>
+
+    <div id="allLangWrap"></div>
+
+</section>
+
+
+<!-- LESSON -->
+
+<section class="screen" id="lesson">
+
+    <div class="lessonCard">
+
+        <div class="lessonHeader">
+
+            <div>
+                <span class="badge" id="lessonBadge">ENGLISH • GRAMMAR</span>
+                <h2 style="margin-top:10px;" id="lessonTitle">Present → Past Tense</h2>
+            </div>
+
+            <span id="lessonCount">Lesson 1 / 7</span>
+
+        </div>
+
+        <div id="lessonChipRow" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;"></div>
+
+        <div class="animationStage">
+
+            <div class="character">🧑‍🎓</div>
+
+            <div class="sentence">
+                <span id="sentencePrefix"></span><span class="highlight" id="verb">PLAY</span><span id="sentenceSuffix"></span>
+            </div>
+
+        </div>
+
+
+        <div class="lessonText">
+
+            <h3 id="lessonHook">Watch the grammar change 👀</h3>
+
+            <p id="lessonExplain">
+                When we talk about something that happened in the past,
+                many regular English verbs change by adding <b>-ed</b>.
+            </p>
+
+            <div class="example" id="lessonExample">
+                Today → I PLAY ⚽<br><br>
+                Yesterday → I PLAYED ⚽
+            </div>
+
+            <div style="display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;">
+                <button class="nextBtn" style="background:var(--bg);color:var(--text);" onclick="changeLesson(-1)">
+                    ‹ Prev
+                </button>
+                <button class="nextBtn" onclick="startAnimation()">
+                    ▶ Play Animation
+                </button>
+                <button class="nextBtn" onclick="changeLesson(1)">
+                    Next ›
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUIZ -->
+
+<section class="screen" id="quiz">
+
+    <div class="quizCard">
+
+        <span class="badge">GRAMMAR QUIZ</span>
+
+        <div id="quizContent"></div>
+
+    </div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section class="screen" id="profile">
+
+    <div class="profileCard">
+
+        <div class="profileTop">
+
+            <div class="bigAvatar">T</div>
+
+            <div>
+                <h2>Thwayyib</h2>
+                <p style="color:var(--muted)">
+                    Language Explorer
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="profileStats">
+
+            <div class="profileStat">
+                ⭐
+                <strong id="profileXP">0</strong>
+                XP
+            </div>
+
+            <div class="profileStat">
+                🔥
+                <strong id="profileStreak">1</strong>
+                Streak
+            </div>
+
+            <div class="profileStat">
+                🏆
+                <strong id="profileLevel">1</strong>
+                Level
+            </div>
+
+        </div>
+
+
+        <div class="sectionTitle">
+            <h3>Level Progress</h3>
+        </div>
+
+        <div class="progress">
+            <div id="levelProgress" data-target="0"></div>
+        </div>
+
+        <p style="margin-top:10px;color:var(--muted)">
+            Keep learning to unlock your next level.
+        </p>
+
+        <div class="sectionTitle">
+            <span class="cursive">your achievements 🏆</span>
+        </div>
+
+        <div class="badgesGrid" id="badgesWrap"></div>
+
+    </div>
+
+</section>
+
+</main>
+
+</div>
+
+<div class="levelToast" id="levelToast"></div>
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+function loadStored(key, fallback){
+    try{
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+    }catch(e){ console.warn("read failed", e); return fallback; }
+}
+function saveStored(key, value){
+    try{ localStorage.setItem(key, JSON.stringify(value)); }
+    catch(e){ console.warn("save failed", e); }
+}
+
+let user = loadStored("thwayyibUser", { xp:0, streak:1, level:1, dailyXP:0, lastActive:"", quizzesCompleted:0, lessonsPlayed:0, goalCelebrated:false });
+
+(function dailyReset(){
+    const today = new Date().toDateString();
+    if(user.lastActive !== today){
+        user.dailyXP = 0;
+        user.goalCelebrated = false;
+        user.lastActive = today;
+        saveStored("thwayyibUser", user);
+    }
+})();
+
+const DAILY_GOAL = 50;
+
+
+/* =========================
+   ANIMATED NUMBER COUNTER
+========================= */
+
+function animateNumber(el, from, to, suffix){
+    suffix = suffix || "";
+    const duration = 600;
+    const start = performance.now();
+    function tick(now){
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(from + (to - from) * eased);
+        el.textContent = val + suffix;
+        if(p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+}
+
+function animateProgressBars(){
+    document.querySelectorAll(".progress > div[data-target]").forEach(bar=>{
+        const target = bar.getAttribute("data-target");
+        requestAnimationFrame(()=>{ bar.style.width = target + "%"; });
+    });
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveUser(){
+    saveStored("thwayyibUser", user);
+    updateUI();
+}
+
+
+/* =========================
+   UPDATE UI
+========================= */
+
+function updateUI(){
+
+    const xpHome = document.getElementById("xpHome");
+    animateNumber(xpHome, parseInt(xpHome.textContent) || 0, user.xp, " XP");
+
+    document.getElementById("streakHome").textContent = user.streak;
+    document.getElementById("levelHome").textContent = user.level;
+
+    const profileXP = document.getElementById("profileXP");
+    animateNumber(profileXP, parseInt(profileXP.textContent) || 0, user.xp, "");
+
+    document.getElementById("profileStreak").textContent = user.streak;
+    document.getElementById("profileLevel").textContent = user.level;
+
+    let progress = user.xp % 100;
+    const levelBar = document.getElementById("levelProgress");
+    levelBar.setAttribute("data-target", progress);
+    requestAnimationFrame(()=>{ levelBar.style.width = progress + "%"; });
+
+    const dailyPct = Math.min(100, Math.round((user.dailyXP / DAILY_GOAL) * 100));
+    const dailyBar = document.getElementById("dailyGoalBar");
+    if(dailyBar){
+        dailyBar.setAttribute("data-target", dailyPct);
+        requestAnimationFrame(()=>{ dailyBar.style.width = dailyPct + "%"; });
+    }
+    const dailyLabel = document.getElementById("dailyGoalLabel");
+    if(dailyLabel) dailyLabel.textContent = Math.min(user.dailyXP, DAILY_GOAL) + " / " + DAILY_GOAL + " XP today";
+
+    if(user.dailyXP >= DAILY_GOAL && !user.goalCelebrated){
+        user.goalCelebrated = true;
+        saveStored("thwayyibUser", user);
+        setTimeout(()=>{
+            const toast = document.getElementById("levelToast");
+            toast.textContent = "✨ Daily goal reached! Great work today.";
+            toast.classList.add("show");
+            burstConfetti();
+            setTimeout(()=> toast.classList.remove("show"), 2600);
+        }, 200);
+    }
+
+    renderBadges();
+}
+
+
+/* =========================
+   SCREEN NAVIGATION
+========================= */
+
+function showScreen(screen,button){
+
+    document.querySelectorAll(".screen")
+        .forEach(s=>s.classList.remove("active"));
+
+    document.getElementById(screen)
+        .classList.add("active");
+
+    document.querySelectorAll(".nav button")
+        .forEach(b=>b.classList.remove("active"));
+
+    if(button){
+        button.classList.add("active");
+    }else{
+        document.querySelectorAll(".nav button").forEach(b=>{
+            if(b.getAttribute("onclick") && b.getAttribute("onclick").includes("'"+screen+"'")) {
+                b.classList.add("active");
+            }
+        });
+    }
+
+    document.getElementById("sidebar")
+        .classList.remove("open");
+
+    if(screen === "home" || screen === "languages"){
+        animateProgressBars();
+    }
+    if(screen === "alllang"){
+        renderAllLanguages();
+    }
+    if(screen === "profile"){
+        const bar = document.getElementById("levelProgress");
+        const t = bar.getAttribute("data-target") || 0;
+        bar.style.width = "0%";
+        requestAnimationFrame(()=>{ bar.style.width = t + "%"; });
+    }
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+
+/* =========================
+   MOBILE MENU
+========================= */
+
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+
+/* =========================
+   THEME
+========================= */
+
+function toggleTheme(){
+    document.body.classList.toggle("dark");
+    saveStored("thwayyibDark", document.body.classList.contains("dark"));
+}
+
+if(loadStored("thwayyibDark", false) === true){
+    document.body.classList.add("dark");
+}
+
+
+/* =========================
+   LANGUAGE
+========================= */
+
+function selectLanguage(language){
+    setLessonLanguage(language);
+    showScreen("lesson");
+}
+
+function startLanguage(language){
+    setLessonLanguage(language);
+    showScreen("lesson");
+}
+
+function setLessonLanguage(language){
+    currentLessonSet = LESSON_SETS[language] || ENGLISH_LESSONS;
+    currentLesson = 0;
+    loadLesson(0);
+}
+
+
+/* =========================
+   CONFETTI + LEVEL TOAST
+========================= */
+
+function burstConfetti(){
+    const colors = ["#6c63ff","#8b5cf6","#22c55e","#f59e0b"];
+    for(let i=0;i<20;i++){
+        const p = document.createElement("div");
+        p.className = "confetti-piece";
+        const size = 6 + Math.random()*5;
+        p.style.width = size+"px";
+        p.style.height = (size*0.6)+"px";
+        p.style.left = (Math.random()*100)+"vw";
+        p.style.background = colors[Math.floor(Math.random()*colors.length)];
+        document.body.appendChild(p);
+        const duration = 900 + Math.random()*700;
+        p.animate([
+            {transform:"translateY(0) rotate(0deg)", opacity:1},
+            {transform:`translateY(${70+Math.random()*20}vh) rotate(${360+Math.random()*360}deg)`, opacity:0}
+        ], {duration, easing:"cubic-bezier(.3,.6,.4,1)"}).onfinish = ()=> p.remove();
+    }
+}
+
+function showLevelToast(level){
+    const toast = document.getElementById("levelToast");
+    toast.textContent = "🎉 Level Up! You reached Level " + level;
+    toast.classList.add("show");
+    burstConfetti();
+    setTimeout(()=> toast.classList.remove("show"), 2600);
+}
+
+
+/* =========================
+   GRAMMAR LAB — LESSONS
+========================= */
+
+const ENGLISH_LESSONS = [
+  {
+    badge:"ENGLISH • GRAMMAR", title:"Present → Past Tense", chip:"Past tense",
+    hook:"Watch the grammar change 👀",
+    explain:"When we talk about something that happened in the past, many regular English verbs change by adding <b>-ed</b>.",
+    example:"Today → I PLAY ⚽<br><br>Yesterday → I PLAYED ⚽",
+    states:[ {p:"I ",w:"PLAY",s:" ⚽"}, {p:"I ",w:"PLAYED",s:" ⚽ yesterday"} ]
+  },
+  {
+    badge:"ENGLISH • GRAMMAR", title:"Singular → Plural", chip:"Plurals",
+    hook:"One becomes many ✨",
+    explain:"Add <b>-s</b> to most nouns to talk about more than one.",
+    example:"1 → CAT 🐱<br><br>2+ → CATS 🐱🐱",
+    states:[ {p:"I have one ",w:"CAT",s:" 🐱"}, {p:"I have two ",w:"CATS",s:" 🐱🐱"} ]
+  },
+  {
+    badge:"ENGLISH • GRAMMAR", title:"Making a Negative", chip:"Negation",
+    hook:"Flip it to negative 🙅",
+    explain:"Add <b>don't</b> (or <b>doesn't</b>) right before the verb to make a sentence negative.",
+    example:"I LIKE pizza.<br><br>I DON'T LIKE pizza.",
+    states:[ {p:"I ",w:"LIKE",s:" pizza."}, {p:"I ",w:"DON'T LIKE",s:" pizza."} ]
+  },
+  {
+    badge:"ENGLISH • GRAMMAR", title:"Asking a Question", chip:"Questions",
+    hook:"Turn a statement into a question ❓",
+    explain:"Add <b>Do</b> or <b>Does</b> to the front, and a question mark at the end.",
+    example:"You like it.<br><br>Do you like it?",
+    states:[ {p:"",w:"You like it.",s:""}, {p:"",w:"Do you like it?",s:""} ]
+  },
+  {
+    badge:"ENGLISH • GRAMMAR", title:"Comparing Things", chip:"Comparatives",
+    hook:"Compare two things 📏",
+    explain:"Add <b>-er</b> to short adjectives when comparing two things.",
+    example:"BIG → BIGGER",
+    states:[ {p:"This one is ",w:"BIG",s:"."}, {p:"This one is ",w:"BIGGER",s:" than that one."} ]
+  },
+  {
+    badge:"ENGLISH • GRAMMAR", title:"Happening Right Now", chip:"-ing form",
+    hook:"Something happening right now ⏳",
+    explain:"Use <b>am/is/are + verb-ing</b> to talk about an action happening at this moment.",
+    example:"I PLAY football. (usually)<br><br>I am PLAYING football. (right now)",
+    states:[ {p:"I ",w:"PLAY",s:" football."}, {p:"I am ",w:"PLAYING",s:" football right now."} ]
+  },
+  {
+    badge:"ENGLISH • GRAMMAR", title:"Showing Ownership", chip:"Possessives",
+    hook:"Show ownership with 's 👜",
+    explain:"Add <b>'s</b> to a name or noun to show that it owns something.",
+    example:"Tom has a book.<br><br>That is Tom's book.",
+    states:[ {p:"Tom has a ",w:"BOOK",s:"."}, {p:"That is ",w:"TOM'S",s:" book."} ]
+  }
+];
+
+const SPANISH_LESSONS = [
+  {
+    badge:"SPANISH • GRAMMAR", title:"Orden de la oración", chip:"Orden",
+    hook:"El mismo orden que el inglés 👀",
+    explain:"El español sigue el orden <b>Sujeto–Verbo–Objeto</b>, igual que el inglés.",
+    example:"Yo COMO manzanas. (I eat apples)<br><br>Yo COMÍ manzanas ayer. (I ate apples yesterday)",
+    states:[ {p:"Yo ",w:"COMO",s:" manzanas."}, {p:"Yo ",w:"COMÍ",s:" manzanas ayer."} ]
+  },
+  {
+    badge:"SPANISH • GRAMMAR", title:"Verbos terminados en -AR", chip:"Verbos -AR",
+    hook:"Cambia la terminación ✨",
+    explain:"Quita <b>-ar</b> y añade la terminación correcta según quién habla: hablo, hablas, habla...",
+    example:"hablar → HABLO (yo)<br><br>hablar → HABLAS (tú)",
+    states:[ {p:"Yo ",w:"HABLO",s:" español."}, {p:"Tú ",w:"HABLAS",s:" español."} ]
+  },
+  {
+    badge:"SPANISH • GRAMMAR", title:"Ser vs. Estar", chip:"Ser/Estar",
+    hook:"Dos verbos para \"to be\" 🤔",
+    explain:"<b>SER</b> es para características permanentes. <b>ESTAR</b> es para estados temporales o ubicación.",
+    example:"SOY feliz. (lasting trait)<br><br>ESTOY feliz. (right now)",
+    states:[ {p:"",w:"SOY",s:" feliz."}, {p:"",w:"ESTOY",s:" feliz hoy."} ]
+  },
+  {
+    badge:"SPANISH • GRAMMAR", title:"Género y artículos", chip:"Género",
+    hook:"El o la 🔵🌸",
+    explain:"Los sustantivos masculinos usan <b>el</b>, los femeninos usan <b>la</b>.",
+    example:"EL libro (masculine)<br><br>LA mesa (feminine)",
+    states:[ {p:"",w:"EL",s:" libro."}, {p:"",w:"LA",s:" mesa."} ]
+  },
+  {
+    badge:"SPANISH • GRAMMAR", title:"Negación", chip:"Negación",
+    hook:"Pon \"no\" antes del verbo 🙅",
+    explain:"Coloca <b>no</b> justo antes del verbo para negar la oración.",
+    example:"Yo como carne.<br><br>Yo NO como carne.",
+    states:[ {p:"Yo ",w:"como",s:" carne."}, {p:"Yo ",w:"NO como",s:" carne."} ]
+  },
+  {
+    badge:"SPANISH • GRAMMAR", title:"Hacer preguntas", chip:"Preguntas",
+    hook:"Abre y cierra con ¿ ? ❓",
+    explain:"Las preguntas escritas se abren y cierran con los signos <b>¿ ?</b>",
+    example:"Tú comes pizza.<br><br>¿Comes pizza?",
+    states:[ {p:"",w:"Tú comes pizza.",s:""}, {p:"",w:"¿Comes pizza?",s:""} ]
+  },
+  {
+    badge:"SPANISH • GRAMMAR", title:"Verbos reflexivos", chip:"Reflexivos",
+    hook:"La acción vuelve al sujeto 🔁",
+    explain:"Usa un pronombre (me, te, se...) cuando el sujeto se hace la acción a sí mismo.",
+    example:"Yo lavo los platos.<br><br>Yo ME lavo las manos.",
+    states:[ {p:"Yo ",w:"lavo",s:" los platos."}, {p:"Yo ME ",w:"lavo",s:" las manos."} ]
+  }
+];
+
+const ARABIC_LESSONS = [
+  {
+    badge:"ARABIC • GRAMMAR", title:"Verb–Subject–Object Order", chip:"Word order",
+    hook:"Arabic often starts with the verb 👀",
+    explain:"Classical Arabic sentences often start with the <b>verb</b>, before the subject — the opposite of English.",
+    example:"ذَهَبَ الولدُ (DHAHABA the boy) → \"The boy went\"",
+    states:[ {p:"",w:"ذَهَبَ",s:" الولدُ."}, {p:"",w:"يذهبُ",s:" الولدُ."} ]
+  },
+  {
+    badge:"ARABIC • GRAMMAR", title:"The Definite Article (ال)", chip:"Al- article",
+    hook:"Add \"al-\" to say \"the\" 🔤",
+    explain:"Attach <b>ال (al-)</b> to the front of a noun to make it definite, like \"the\" in English.",
+    example:"كتاب (a book) → الكتاب (the book)",
+    states:[ {p:"",w:"كتاب",s:" (a book)"}, {p:"",w:"الكتاب",s:" (the book)"} ]
+  },
+  {
+    badge:"ARABIC • GRAMMAR", title:"Masculine & Feminine Nouns", chip:"Gender",
+    hook:"Most feminine nouns end in ة 🌸",
+    explain:"Many feminine nouns add the ending <b>ة (taa marbuta)</b> to a masculine noun.",
+    example:"مُعَلِّم (teacher, m.) → مُعَلِّمة (teacher, f.)",
+    states:[ {p:"",w:"مُعَلِّم",s:" (m.)"}, {p:"",w:"مُعَلِّمة",s:" (f.)"} ]
+  },
+  {
+    badge:"ARABIC • GRAMMAR", title:"Making a Noun Plural", chip:"Plurals",
+    hook:"Plurals often change the whole word pattern 🔁",
+    explain:"Many Arabic plurals are \"broken plurals\" — the internal vowel pattern changes instead of just adding an ending.",
+    example:"كتاب (book) → كُتُب (books)",
+    states:[ {p:"",w:"كتاب",s:" (book)"}, {p:"",w:"كُتُب",s:" (books)"} ]
+  },
+  {
+    badge:"ARABIC • GRAMMAR", title:"Negating a Sentence", chip:"Negation",
+    hook:"\"لا\" and \"لم\" say \"not\" 🙅",
+    explain:"Use <b>لا</b> to negate the present tense, and <b>لم</b> (with a changed verb form) for the past.",
+    example:"أذهب (I go) → لا أذهب (I don't go)",
+    states:[ {p:"",w:"أذهب",s:" (I go)"}, {p:"",w:"لا أذهب",s:" (I don't go)"} ]
+  },
+  {
+    badge:"ARABIC • GRAMMAR", title:"Asking a Question", chip:"Questions",
+    hook:"\"هل\" opens a yes/no question ❓",
+    explain:"Start a sentence with <b>هل</b> to turn a statement into a yes/no question.",
+    example:"أنت طالب. (You are a student.) → هل أنت طالب؟ (Are you a student?)",
+    states:[ {p:"",w:"أنت طالب.",s:""}, {p:"",w:"هل أنت طالب؟",s:""} ]
+  },
+  {
+    badge:"ARABIC • GRAMMAR", title:"Possessive Endings", chip:"Possessives",
+    hook:"Attach a suffix to show \"my\" 👜",
+    explain:"Add a pronoun suffix like <b>ـي (-i)</b> directly to a noun to mean \"my ___\".",
+    example:"كتاب (a book) → كتابي (my book)",
+    states:[ {p:"",w:"كتاب",s:" (a book)"}, {p:"",w:"كتابي",s:" (my book)"} ]
+  }
+];
+
+const LESSON_SETS = { English: ENGLISH_LESSONS, Spanish: SPANISH_LESSONS, Arabic: ARABIC_LESSONS };
+
+const LANG_META = {
+    English:{flag:"🇬🇧", sub:"7 grammar topics"},
+    Spanish:{flag:"🇪🇸", sub:"7 grammar topics"},
+    Arabic:{flag:"🇸🇦", sub:"7 grammar topics"}
+};
+
+function renderAllLanguages(){
+    const wrap = document.getElementById("allLangWrap");
+    wrap.innerHTML = "";
+    Object.keys(LESSON_SETS).forEach(langKey=>{
+        const meta = LANG_META[langKey];
+        const group = document.createElement("div");
+        group.className = "langGroup";
+        group.innerHTML = `
+            <h3><span class="langFlag">${meta.flag}</span> ${langKey}</h3>
+            <div class="langSub">${meta.sub}</div>
+            <div class="langTopics"></div>
+        `;
+        const topicRow = group.querySelector(".langTopics");
+        LESSON_SETS[langKey].forEach((lesson,idx)=>{
+            const btn = document.createElement("button");
+            btn.type = "button";
+            btn.textContent = lesson.chip;
+            btn.onclick = ()=> openLessonFrom(langKey, idx);
+            topicRow.appendChild(btn);
+        });
+        wrap.appendChild(group);
+    });
+}
+
+function openLessonFrom(langKey, idx){
+    currentLessonSet = LESSON_SETS[langKey] || ENGLISH_LESSONS;
+    currentLesson = idx;
+    showScreen("lesson");
+    loadLesson(idx);
+}
+let currentLessonSet = ENGLISH_LESSONS;
+
+let currentLesson = 0;
+
+function applyState(state){
+    document.getElementById("sentencePrefix").textContent = state.p;
+    document.getElementById("sentenceSuffix").textContent = state.s;
+    const verb = document.getElementById("verb");
+    verb.classList.remove("swap");
+    void verb.offsetWidth;
+    verb.classList.add("swap");
+    setTimeout(()=>{ verb.textContent = state.w; }, 200);
+}
+
+function renderLessonChips(){
+    const row = document.getElementById("lessonChipRow");
+    row.innerHTML = "";
+    currentLessonSet.forEach((l,idx)=>{
+        const chip = document.createElement("button");
+        chip.type = "button";
+        chip.textContent = l.chip;
+        const active = idx === currentLesson;
+        chip.style.cssText = "padding:7px 13px;border-radius:999px;border:1.5px solid "+(active?"var(--gold)":"var(--border)")+
+            ";background:"+(active?"var(--primary)":"var(--card)")+";color:"+(active?"#fff":"var(--muted)")+
+            ";font-size:.78rem;font-weight:700;cursor:pointer;transition:transform .15s;";
+        chip.onmousedown = ()=>{ chip.style.transform = "scale(.95)"; };
+        chip.onmouseup = ()=>{ chip.style.transform = "scale(1)"; };
+        chip.onclick = ()=> loadLesson(idx);
+        row.appendChild(chip);
+    });
+}
+
+function loadLesson(i){
+    currentLesson = i;
+    const lesson = currentLessonSet[i];
+    document.getElementById("lessonBadge").textContent = lesson.badge;
+    document.getElementById("lessonTitle").textContent = lesson.title;
+    document.getElementById("lessonCount").textContent = "Lesson " + (i+1) + " / " + currentLessonSet.length;
+    document.getElementById("lessonHook").textContent = lesson.hook;
+    document.getElementById("lessonExplain").innerHTML = lesson.explain;
+    document.getElementById("lessonExample").innerHTML = lesson.example;
+    applyState(lesson.states[0]);
+    renderLessonChips();
+}
+
+function changeLesson(delta){
+    const next = (currentLesson + delta + currentLessonSet.length) % currentLessonSet.length;
+    loadLesson(next);
+}
+
+function startAnimation(){
+
+    const lesson = currentLessonSet[currentLesson];
+    const states = lesson.states;
+
+    applyState(states[0]);
+    states.forEach((st,i)=>{
+        if(i>0) setTimeout(()=> applyState(st), i*1500);
+    });
+    setTimeout(()=> applyState(states[0]), states.length*1500 + 1000);
+
+    user.xp += 5;
+    user.dailyXP += 5;
+    user.lessonsPlayed = (user.lessonsPlayed || 0) + 1;
+    checkLevel();
+    saveUser();
+}
+
+
+/* =========================
+   LEVEL SYSTEM
+========================= */
+
+function checkLevel(){
+    const newLevel = Math.floor(user.xp / 100) + 1;
+    if(newLevel > user.level){
+        user.level = newLevel;
+        setTimeout(()=> showLevelToast(user.level), 150);
+    }
+}
+
+
+/* =========================
+   ACHIEVEMENTS
+========================= */
+
+const BADGES = [
+    { icon:"🌱", label:"First Steps", check:u => u.xp > 0 },
+    { icon:"🔥", label:"On Fire", check:u => u.streak >= 3 },
+    { icon:"🏅", label:"Level 2", check:u => u.level >= 2 },
+    { icon:"💯", label:"Century Club", check:u => u.xp >= 100 },
+    { icon:"🧠", label:"Quiz Whiz", check:u => (u.quizzesCompleted || 0) >= 1 },
+    { icon:"🗺️", label:"Grammar Explorer", check:u => (u.lessonsPlayed || 0) >= 5 }
+];
+
+function renderBadges(){
+    const wrap = document.getElementById("badgesWrap");
+    if(!wrap) return;
+    wrap.innerHTML = "";
+    BADGES.forEach(b=>{
+        const unlocked = b.check(user);
+        const el = document.createElement("div");
+        el.className = "badge-item";
+        el.style.opacity = unlocked ? "1" : ".4";
+        el.innerHTML = `
+            <div class="badgeIcon" style="${unlocked ? "" : "filter:grayscale(1);"}">${b.icon}</div>
+            <div class="badgeLabel" style="color:${unlocked ? "var(--gold)" : "var(--muted)"}">${b.label}</div>
+        `;
+        wrap.appendChild(el);
+    });
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+const questions = [
+    { question:"Yesterday, I ___ football.", answers:["play","plays","played","playing"], correct:2 },
+    { question:"She ___ to school yesterday.", answers:["go","went","going","goes"], correct:1 },
+    { question:"They ___ dinner last night.", answers:["eat","eats","ate","eating"], correct:2 }
+];
+
+let currentQuestion = 0;
+let quizLocked = false;
+
+function loadQuiz(){
+
+    const q = questions[currentQuestion];
+    quizLocked = false;
+
+    const container = document.getElementById("quizContent");
+
+    container.innerHTML = `
+        <p style="color:var(--muted)">
+            Question ${currentQuestion+1} of ${questions.length}
+        </p>
+        <div class="quizQuestion">${q.question}</div>
+        <div class="answers">
+            ${q.answers.map((answer,index)=>`
+                <button class="answer" onclick="checkAnswer(${index},this)">
+                    ${answer}
+                </button>
+            `).join("")}
+        </div>
+        <div id="quizResult"></div>
+    `;
+}
+
+function checkAnswer(index,button){
+
+    if(quizLocked) return;
+    quizLocked = true;
+
+    const q = questions[currentQuestion];
+
+    if(index === q.correct){
+        button.classList.add("correct");
+        user.xp += 20;
+        user.dailyXP += 20;
+        checkLevel();
+        burstConfetti();
+        document.getElementById("quizResult").innerHTML = `
+            <p style="color:var(--green);margin-top:20px;font-weight:800;">
+                🎉 Correct! +20 XP
+            </p>`;
+    }else{
+        button.classList.add("wrong");
+        document.querySelectorAll(".answer")[q.correct].classList.add("correct");
+        document.getElementById("quizResult").innerHTML = `
+            <p style="color:#ef4444;margin-top:20px;font-weight:800;">
+                Not quite. Keep learning! 💪
+            </p>`;
+    }
+
+    saveUser();
+
+    setTimeout(()=>{
+
+        currentQuestion++;
+
+        if(currentQuestion >= questions.length){
+            currentQuestion = 0;
+            user.quizzesCompleted = (user.quizzesCompleted || 0) + 1;
+            saveUser();
+            document.getElementById("quizContent").innerHTML = `
+                <div style="text-align:center;padding:30px;">
+                    <div style="font-size:70px;animation:popIn .5s cubic-bezier(.34,1.56,.64,1);">🏆</div>
+                    <h2>Quiz Complete!</h2>
+                    <p style="color:var(--muted);margin:15px 0;">
+                        Great work! Your XP has been updated.
+                    </p>
+                    <button class="nextBtn" onclick="loadQuiz()">Try Again</button>
+                </div>`;
+        }else{
+            loadQuiz();
+        }
+
+    },1200);
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+updateUI();
+loadQuiz();
+animateProgressBars();
+loadLesson(0);
+
+</script>
+
+</body>
+</html>
